@@ -1,6 +1,6 @@
 # このプログラムを使うにあたって
 
-last.fm及びSpotifyのAPIに登録してキーを取得する必要があります。
+last.fm及びSpotify、IBM cloudのAPIに登録してキーを取得する必要があります。
 
 ## spotifyのAPIのローカルへの登録方法
 
