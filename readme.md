@@ -6,9 +6,9 @@ last.fm及びSpotifyのAPIに登録してキーを取得する必要がありま
 
 spotifyのAPIの情報を".bash_profile"に記載する。
 
-export SPOTIPY_CLIENT_ID=''　(userIDとは別)
-export SPOTIPY_CLIENT_SECRET=''
-export SPOTIPY_REDIRECT_URI='https://lastfm-playlist-generator-beta.herokuapp.com/'
+export SPOTIPY_CLIENT_ID=''　(userIDとは別)  
+export SPOTIPY_CLIENT_SECRET=''  
+export SPOTIPY_REDIRECT_URI='https://lastfm-playlist-generator-beta.herokuapp.com/'  
 (リダイレクト先はどこでも構いませんが、こちらでは以上のリダイレクト先を用意しています。)
 
 ## 初回認証方法
