@@ -425,6 +425,7 @@ def create_playlist(q, api_key, similar_track_data_dict, remove_list, count, pla
             for songs in song_list:
                 song = songs[0]
                 track = (similar_artist, song)
+                track = itemfilter.convert_to_Spotify_fomat(track)
                 if track in remove_list:
                     continue
                 else:
