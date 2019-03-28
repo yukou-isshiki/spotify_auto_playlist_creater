@@ -14,7 +14,7 @@
 
 # このプログラムを使うにあたって
 
-last.fm及びSpotify、IBM cloudのAPIに登録してキーを取得する必要があります。
+Last.fm及びSpotify、IBM cloudのAPIに登録してキーを取得する必要があります。
 
 ## spotifyのAPIのローカルへの登録方法
 
@@ -24,6 +24,17 @@ export SPOTIPY_CLIENT_ID=''　(userIDとは別)
 export SPOTIPY_CLIENT_SECRET=''  
 export SPOTIPY_REDIRECT_URI='https://lastfm-playlist-generator-beta.herokuapp.com/'  
 (リダイレクト先はどこでも構いませんが、こちらでは以上のリダイレクト先を用意しています。)
+
+## ファイルにAPIキー等を記述する場所
+
+* spotifyのユーザー名・Last.fmのAPIキー
+** auto_create_playlist.py
+
+* Last.fmのユーザー名
+** connect_lastfm_api.py
+
+* watsonのユーザー名とパスワード
+** connect_watson_translate.py
 
 ## 初回認証方法
 
