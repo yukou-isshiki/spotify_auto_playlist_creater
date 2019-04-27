@@ -27,6 +27,7 @@
 # このプログラムを使うにあたって
 
 Last.fm及びSpotify、IBM cloudのAPIに登録してキーを取得する必要があります。
+(現在、IBM cloudを使わなくても良いように改修中)
 
 ## spotifyのAPIのローカルへの登録方法
 
