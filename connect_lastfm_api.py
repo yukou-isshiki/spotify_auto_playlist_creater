@@ -378,85 +378,88 @@ def create_playlist(q, api_key, similar_track_data_dict, remove_list, count, pla
     print(call_api)
     address_json = urllib.request.urlopen(call_api)
     data = json.loads(address_json.read())
-    track_list = data["similartracks"]["track"]
-    for tracks in track_list:
-        if tracks["match"] * original_match < 0.1:
-            break
-        else:
-            song = tracks["name"]
-            artist = tracks["artist"]["name"]
-            track_match = tracks["match"] * original_match
-            track = (artist, song)
-            track = itemfilter.convert_to_Spotify_fomat(track)
-            if track in remove_list:
-                continue
-            elif artist in remove_artist:
-                continue
-            elif similar_track_data_dict.get(track) != None and track_match < similar_track_data_dict.get(track):
-                continue
-            else:
-                remove_list.append(track)
-                track_data = (track_match, track)
-                similar_track_data_dict[track] = track_match
-    print(similar_track_data_dict)
-    sorted_list = sorted(similar_track_data_dict.items(), key=lambda x:x[1], reverse=True)
-    new_dict = {}
-    for sort in sorted_list:
-        new_dict[sort[0]] = sort[1]
-    print(new_dict)
-    if count < 6:
-        next_que = None
-        match = None
-        print(new_dict.items())
-        for queries in new_dict.items():
-            print(queries)
-            match = queries[1]
-            if queries[0] in q_list:
-                continue
-            else:
-                next_que = queries[0]
-                count = count + 1
+    try:
+        track_list = data["similartracks"]["track"]
+        for tracks in track_list:
+            if tracks["match"] * original_match < 0.1:
                 break
-        print(next_que)
-        if next_que != None:
-            new_dict = create_playlist(next_que, api_key, new_dict, remove_list, count, playlist_size, match,
-                                       remove_artist, q_list)
-        else:
-            similar_artist_list = get_similar_artist_list(q[0], api_key)
-            similar_artist = None
-            artist_match = None
-            for artist_data in similar_artist_list:
-                similar_artist = artist_data[0]
-                artist_match = artist_data[1]
-                if similar_artist in remove_artist:
-                    continue
-                else:
-                    break
-            song_list = create_similar_song_list(similar_artist, api_key, 1)
-            song_match = None
-            track = None
-            for songs in song_list:
-                song = songs[0]
-                track = (similar_artist, song)
+            else:
+                song = tracks["name"]
                 song = jaconv.z2h(song, kana=False, digit=True, ascii=True)
                 song = unicodedata.normalize('NFC', song)
+                artist = tracks["artist"]["name"]
                 artist = jaconv.z2h(artist, kana=False, digit=True, ascii=True)
                 artist = unicodedata.normalize('NFC', artist)
+                track_match = tracks["match"] * original_match
+                track = (artist, song)
                 track = itemfilter.convert_to_Spotify_fomat(track)
                 if track in remove_list:
                     continue
+                elif artist in remove_artist:
+                    continue
+                elif similar_track_data_dict.get(track) != None and track_match < similar_track_data_dict.get(track):
+                    continue
                 else:
-                    song_match = songs[1]
-                    break
-            next_match = artist_match * song_match
-            remove_list.append(track)
-            track_data = (next_match, track)
-            new_dict[track] = next_match
-            print(new_dict)
-            new_dict = create_playlist(track, api_key, new_dict, remove_list, count, playlist_size, next_match,
-                                       remove_artist, q_list)
-    else:
+                    remove_list.append(track)
+                    track_data = (track_match, track)
+                    similar_track_data_dict[track] = track_match
+        print(similar_track_data_dict)
+        sorted_list = sorted(similar_track_data_dict.items(), key=lambda x:x[1], reverse=True)
+        new_dict = {}
+        for sort in sorted_list:
+            new_dict[sort[0]] = sort[1]
         print(new_dict)
+        if count < 6:
+            next_que = None
+            match = None
+            print(new_dict.items())
+            for queries in new_dict.items():
+                print(queries)
+                match = queries[1]
+                if queries[0] in q_list:
+                    continue
+                else:
+                    next_que = queries[0]
+                    count = count + 1
+                    break
+            print(next_que)
+            if next_que != None:
+                new_dict = create_playlist(next_que, api_key, new_dict, remove_list, count, playlist_size, match,
+                                       remove_artist, q_list)
+            else:
+                similar_artist_list = get_similar_artist_list(q[0], api_key)
+                similar_artist = None
+                artist_match = None
+                for artist_data in similar_artist_list:
+                    similar_artist = artist_data[0]
+                    artist_match = artist_data[1]
+                    if similar_artist in remove_artist:
+                        continue
+                    else:
+                        break
+                song_list = create_similar_song_list(similar_artist, api_key, 1)
+                song_match = None
+                track = None
+                for songs in song_list:
+                    song = songs[0]
+                    track = (similar_artist, song)
+                    track = itemfilter.convert_to_Spotify_fomat(track)
+                    if track in remove_list:
+                        continue
+                    else:
+                        song_match = songs[1]
+                        break
+                next_match = artist_match * song_match
+                remove_list.append(track)
+                track_data = (next_match, track)
+                new_dict[track] = next_match
+                print(new_dict)
+                new_dict = create_playlist(track, api_key, new_dict, remove_list, count, playlist_size, next_match,
+                                       remove_artist, q_list)
+        else:
+            print(new_dict)
+    except KeyError:
+        new_dict = {}
     return new_dict
 
 

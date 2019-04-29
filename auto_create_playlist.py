@@ -4,6 +4,7 @@ import dislike_artist_list
 import create_playlist_to_Spotify_etc
 import re
 import artist_filter
+import error_class
 from spotify_token import Spotify_token
 
 api_key =  "" # last.fmのAPIキー
@@ -42,13 +43,18 @@ def create_playlist(artist, song):
     q_list = [] # 一度検索した曲の再検索を防ぐ
     track_dict = connect_lastfm_api.create_playlist(q, api_key, similar_track_data_dict, remove_list, count,
                                                     playlist_limit, 1.0, remove_artist, q_list)
-    print(track_dict)
-    for track in track_dict:
-        playlist.append(track)
-        if len(playlist) == playlist_limit:
-            break
-    print(playlist)
-    get_empty_Spotify_playlist(playlist)
+    try:
+        if track_dict == {}:
+            raise error_class.NoTrackError
+        print(track_dict)
+        for track in track_dict:
+            playlist.append(track)
+            if len(playlist) == playlist_limit:
+                break
+        print(playlist)
+        get_empty_Spotify_playlist(playlist)
+    except error_class.NoTrackError:
+        print("楽曲名が間違っているか、再生数が極端に少ないためDBに登録されていない可能性があります")
 
 def get_empty_Spotify_playlist(playlist):
     """
