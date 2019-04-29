@@ -67,19 +67,23 @@ def get_empty_Spotify_playlist(playlist):
     song_ids = []
     not_append_list = []
     for i in range(len(playlist)):
-        search_str = playlist[i]
-        s_artist = search_str[0]
-        s_song = search_str[1]
-        search_str = s_artist + " " + s_song # SpotifyのAPIに投げるqueryの作成
-        result = sp.search(search_str, limit=1, market="JP")
-        tracks = result["tracks"]
-        items = tracks["items"]
-        if items == []: # 0件ヒット
-            not_append_song = (s_artist, s_song)
-            not_append_list.append(not_append_song)
-            continue
+        if i == 0:
+            current_track = sp.current_user_playing_track()
+            song_id = current_track['item']['id']
+            song_ids.append(song_id)
         else:
+            search_str = playlist[i]
+            s_artist = search_str[0]
+            s_song = search_str[1]
+            search_str = s_artist + " " + s_song # SpotifyのAPIに投げるqueryの作成
+            result = sp.search(search_str, limit=1, market="JP")
+            tracks = result["tracks"]
+            items = tracks["items"]
             similar_artist_list = connect_lastfm_api.get_similar_artist_list(s_artist, api_key)
+            if items == []: # 0件ヒット
+                not_append_song = (s_artist, s_song)
+                not_append_list.append(not_append_song)
+                continue
             api_artist = items[0]["album"]["artists"][0]["name"]
             print(api_artist)
             api_song = items[0]["name"]
