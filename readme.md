@@ -40,14 +40,14 @@ export SPOTIPY_REDIRECT_URI='https://lastfm-playlist-generator-beta.herokuapp.co
 
 ## ファイルにAPIキー等を記述する場所
 
-* spotifyのユーザー名・Last.fmのAPIキー
-** auto_create_playlist.py
+### spotifyのユーザー名・Last.fmのAPIキー
+####auto_create_playlist.py
 
-* Last.fmのユーザー名
-** connect_lastfm_api.py
+### Last.fmのユーザー名
+#### connect_lastfm_api.py
 
-* watsonのユーザー名とパスワード
-** connect_watson_translate.py
+### watsonのユーザー名とパスワード
+#### connect_watson_translate.py
 
 ## 初回認証方法
 
