@@ -3,6 +3,8 @@ import urllib.parse
 import json
 import time
 import itemfilter
+import jaconv
+import unicodedata
 
 # 現在では不使用となったものも含まれる
 
@@ -31,6 +33,7 @@ def get_search_song_list(artist, api_key, page):
     list = track["track"]
     for song in list:
         song = song["name"]
+        song = jaconv.z2h(song, kana=False, digit=True, ascii=True)
         song_list.append(song)
     return song_list
 
@@ -143,7 +146,11 @@ def recent_play_song(api_key):
             for i in range(len(track)):
                 list = track[i]
                 artist = list["artist"]["#text"]
+                artist = jaconv.z2h(artist, kana=False, digit=True, ascii=True)
+                artist = unicodedata.normalize('NFC', artist)
                 song = list["name"]
+                song = jaconv.z2h(song, kana=False, digit=True, ascii=True)
+                song = unicodedata.normalize('NFC', song)
                 recent_track = (artist, song)
                 recent_track = itemfilter.convert_to_last_fm_format(recent_track)
                 if recent_track in recent_track_list:
@@ -181,7 +188,9 @@ def get_loved_track(api_key):
         list = track[i]
         try:
             song = list["name"]
+            song = jaconv.z2h(song, kana=False, digit=True, ascii=True)
             artist = list["artist"]["name"]
+            artist = jaconv.z2h(artist, kana=False, digit=True, ascii=True)
             loved_data = (song, artist)
             loved_list.append(loved_data)
         except KeyError:
@@ -210,6 +219,8 @@ def get_similar_artist_list(artist,api_key):
         for i in range(len(artist_list)):
             list = artist_list[i]
             similar_artist = list["name"]
+            similar_artist = jaconv.z2h(similar_artist, kana=False, digit=True, ascii=True)
+            similar_artist = unicodedata.normalize('NFC', similar_artist)
             match = list["match"]
             match = float(match)
             if match < 0.1:
@@ -328,6 +339,8 @@ def get_top_artist(api_key):
     top_artist_list = []
     for artist_data in artists:
         artist = artist_data["name"]
+        artist = jaconv.z2h(artist, kana=False, digit=True, ascii=True)
+        artist = unicodedata.normalize('NFC', artist)
         top_artist_list.append(artist)
     return top_artist_list
 
@@ -425,6 +438,10 @@ def create_playlist(q, api_key, similar_track_data_dict, remove_list, count, pla
             for songs in song_list:
                 song = songs[0]
                 track = (similar_artist, song)
+                song = jaconv.z2h(song, kana=False, digit=True, ascii=True)
+                song = unicodedata.normalize('NFC', song)
+                artist = jaconv.z2h(artist, kana=False, digit=True, ascii=True)
+                artist = unicodedata.normalize('NFC', artist)
                 track = itemfilter.convert_to_Spotify_fomat(track)
                 if track in remove_list:
                     continue
@@ -467,6 +484,8 @@ def create_similar_song_list(artist, api_key, page):
     similar_song_list = []
     for songs in song_list:
         song = songs["name"]
+        song = jaconv.z2h(song, kana=False, digit=True, ascii=True)
+        song = unicodedata.normalize('NFC', song)
         song_match = int(songs["listeners"]) / top_match
         data = (song, song_match)
         similar_song_list.append(data)
