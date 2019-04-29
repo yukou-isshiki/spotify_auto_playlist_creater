@@ -18,9 +18,10 @@
 * auto_create_playlist.py メインファイル
 * artist_filter.py Spotifyのアーティスト表記を日本語化するためのファイル(一部カスタマイズ可能)
 * connect_lastfm_api.py Last.fmに接続するためのファイル
-* connect_watson_translate.py watsonのAPIに送って翻訳するファイル
+* connect_watson_translate.py watsonのAPIに送って翻訳するファイル(現在不使用)
 * create_playlist_to_Spotify_etc.py SpotifyのAPIから受け取った曲のデータをプレイリストに追加するかを判定するファイル
 * dislike_artist_list.py 嫌いなアーティストを入れておくファイル(カスタマイズ可能)
+* error_class.py 独自のエラーを定義するファイル
 * itemfilter.py 表記の差異で上手く動作しない場合に使うファイル(カスタマイズ可能)
 * lev_distance.py レーベンシュタイン距離の比較ファイル
 * spotify_token.py SpotifyのAPIを使う時にトークンを発行するファイル
@@ -28,6 +29,7 @@
 # このプログラムを使うにあたって
 
 Last.fm及びSpotify、IBM cloudのAPIに登録してキーを取得する必要があります。
+
 →IBM cloudは使用しないように仕様変更しました
 
 ## spotifyのAPIのローカルへの登録方法
@@ -42,13 +44,10 @@ export SPOTIPY_REDIRECT_URI='https://lastfm-playlist-generator-beta.herokuapp.co
 ## ファイルにAPIキー等を記述する場所
 
 ### spotifyのユーザー名・Last.fmのAPIキー
-####auto_create_playlist.py
+#### auto_create_playlist.py
 
 ### Last.fmのユーザー名
 #### connect_lastfm_api.py
-
-### watsonのユーザー名とパスワード
-#### connect_watson_translate.py
 
 ## 初回認証方法
 
