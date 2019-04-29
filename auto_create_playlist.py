@@ -123,18 +123,20 @@ def Spotify_auto_start_playlist(playlist_id, song_ids):
     """
     result = sp.devices()
     device_id_list = result['devices']
+    device_id = None
     for device_ids in device_id_list:
         print(device_ids)
-        device_id = device_ids['id']
+
         if device_ids['is_active'] == True: # 現在再生中の機器を抽出
+            device_id = device_ids['id']
             break
         else:
             continue
     context_uri = "spotify:playlist:" + playlist_id
-    sp.pause_playback(device_id) # 一旦曲を停止
     current_track = sp.current_user_playing_track()
     print(current_track)
     song_id = current_track['item']['id']
+    sp.pause_playback(device_id) # 一旦曲を停止
     if song_id == song_ids[0]: # プレイリストの先頭と同じ場合は再生位置を修正
         progress_ms = current_track['progress_ms'] - 500
     else:
