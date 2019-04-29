@@ -54,3 +54,8 @@ export SPOTIPY_REDIRECT_URI='https://lastfm-playlist-generator-beta.herokuapp.co
 
 初回使用のみ認証が必要です。Spotify側の確認画面が出ます。また、ブラウザが開いてリダイレク
 ト先のページが表示されます。そのURLをCLIの指定された位置に貼り付けてEnterを押して下さい。
+
+
+## 今後の改修予定
+
+* Last.fmとSpotifyで表記が違う場合の変更作業を、楽曲をSpotifyの検索に入れる直前とする
