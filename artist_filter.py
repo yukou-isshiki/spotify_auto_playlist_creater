@@ -1,6 +1,5 @@
-import urllib.request
-import urllib.error
 from bs4 import BeautifulSoup
+from urllib import request, error
 
 
 def wikipedia(input_artist):
@@ -12,7 +11,7 @@ def wikipedia(input_artist):
     url_head = "https://en.wikipedia.org/wiki/"
     url = url_head + input_artist
     try:
-        html = urllib.request.urlopen(url)
+        html = request.urlopen(url)
         soup = BeautifulSoup(html, "html.parser")
         li_ja = soup.find("li", class_="interlanguage-link interwiki-ja")
         a = li_ja.find("a")
@@ -20,7 +19,7 @@ def wikipedia(input_artist):
         # リンクされていたページが違う場合にはここで調整
         if artist == "スピッツ (バンド)":
             artist = "スピッツ"
-    except urllib.error.HTTPError:
+    except error.HTTPError:
         artist = None
     except UnicodeEncodeError:
         artist = input_artist

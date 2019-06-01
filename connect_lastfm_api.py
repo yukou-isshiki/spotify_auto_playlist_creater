@@ -1,10 +1,9 @@
-import urllib.request
-import urllib.parse
 import json
 import time
 import itemfilter
 import jaconv
 import unicodedata
+from urllib import request, parse
 
 # 現在では不使用となったものも含まれる
 
@@ -19,7 +18,7 @@ def get_search_song_list(artist, api_key, page):
     :return: 楽曲のリスト
     """
     song_list = []
-    artist = urllib.parse.quote(artist)
+    artist = parse.quote(artist)
     artist_api1 = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist="
     artist_api2 = "&autocorrect=1&page="
     page = str(page)
@@ -27,7 +26,7 @@ def get_search_song_list(artist, api_key, page):
     artist_api4 = "&format=json"
     call_api = artist_api1 + artist + artist_api2 + page + artist_api3 + api_key + artist_api4
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     track = data["toptracks"]
     list = track["track"]
@@ -48,15 +47,15 @@ def get_similar_track(artist, song, api_key):
     similar_track_list = []
     first_track = (artist, song)
     similar_track_list.append(first_track)
-    artist = urllib.parse.quote(artist)
-    song = urllib.parse.quote(song)
+    artist = parse.quote(artist)
+    song = parse.quote(song)
     track_api1 = "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist="
     track_api2 = "&track="
     track_api3 = "&autocorrect=1&api_key="
     track_api4 = "&format=json"
     call_api = track_api1 + artist + track_api2 + song + track_api3 + api_key + track_api4
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     similartracks = data["similartracks"]
     track = similartracks["track"]
@@ -82,13 +81,13 @@ def similar_artist_search(artist, api_key):
     :param api_key: last.fmのAPIキー
     :return: アーティストのリスト
     """
-    artist = urllib.parse.quote(artist)
+    artist = parse.quote(artist)
     artist_api1 = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist="
     artist_api2 = "&autocorrect=1&api_key="
     artist_api3 = "&format=json"
     call_api = artist_api1 + artist + artist_api2 + api_key + artist_api3
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     similarartists = data["similarartists"]
     artist_list = similarartists["artist"]
@@ -110,7 +109,7 @@ def recent_play_song(api_key):
     recent_api3 = "&api_key="
     recent_api4 = "&format=json"
     call_api = recent_api1 + user_name + recent_api2 + recent + recent_api3 + api_key + recent_api4
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     recenttracks = data["recenttracks"]
     attr = recenttracks["@attr"]
@@ -138,7 +137,7 @@ def recent_play_song(api_key):
         count = str(count)
         call_api = recent_api1 + total + recent_api2 + user_name + recent_api3 + count + recent_api4 + recent + recent_api5 + api_key + recent_api6
         print(call_api)
-        address_json = urllib.request.urlopen(call_api)
+        address_json = request.urlopen(call_api)
         data = json.loads(address_json.read())
         try:
             recenttracks = data["recenttracks"]
@@ -171,7 +170,7 @@ def get_loved_track(api_key):
     loved_api2 = "&api_key="
     loved_api3 = "&format=json"
     call_api = loved_api1 + user_name + loved_api2 + api_key + loved_api3
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     lovedtracks = data["lovedtracks"]
     attr = lovedtracks["@attr"]
@@ -179,7 +178,7 @@ def get_loved_track(api_key):
     limit_api = "&limit="
     call_api = loved_api1 + user_name + limit_api + limit + loved_api2 + api_key + loved_api3
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     lovedtracks = data["lovedtracks"]
     track = lovedtracks["track"]
@@ -204,13 +203,13 @@ def get_similar_artist_list(artist,api_key):
     :param api_key: last.fmのAPIキー
     :return: アーティストのリスト
     """
-    artist = urllib.parse.quote(artist)
+    artist = parse.quote(artist)
     artist_api1 = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist="
     artist_api2 = "&autocorrect=1&api_key="
     artist_api3 = "&format=json"
     call_api = artist_api1 + artist + artist_api2 + api_key + artist_api3
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     try:
         similarartists = data["similarartists"]
@@ -242,15 +241,15 @@ def generate_similar_track(artist, song, api_key):
     :return: 似ている楽曲のリスト
     """
     similar_track_list = []
-    q_artist = urllib.parse.quote(artist)
-    q_song = urllib.parse.quote(song)
+    q_artist = parse.quote(artist)
+    q_song = parse.quote(song)
     track_api1 = "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist="
     track_api2 = "&track="
     track_api3 = "&autocorrect=1&api_key="
     track_api4 = "&format=json"
     call_api = track_api1 + q_artist + track_api2 + q_song + track_api3 + api_key + track_api4
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     similartracks = data["similartracks"]
     track = similartracks["track"]
@@ -270,7 +269,7 @@ def generate_similar_track(artist, song, api_key):
         artist_api3 = "&format=json"
         call_api = artist_api1 + q_artist + artist_api2 + api_key + artist_api3
         print(call_api)
-        address_json = urllib.request.urlopen(call_api)
+        address_json = request.urlopen(call_api)
         data = json.loads(address_json.read())
         try:
             similarartists = data["similarartists"]
@@ -283,7 +282,7 @@ def generate_similar_track(artist, song, api_key):
                 if artist_match < 0.5:
                     break
                 else:
-                    q_artist = urllib.parse.quote(similar_artist)
+                    q_artist = parse.quote(similar_artist)
                     artist_api1 = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist="
                     artist_api2 = "&autocorrect=1&page="
                     page = str(1)
@@ -291,7 +290,7 @@ def generate_similar_track(artist, song, api_key):
                     artist_api4 = "&format=json"
                     call_api = artist_api1 + q_artist + artist_api2 + page + artist_api3 + api_key + artist_api4
                     print(call_api)
-                    address_json = urllib.request.urlopen(call_api)
+                    address_json = request.urlopen(call_api)
                     data = json.loads(address_json.read())
                     track = data["toptracks"]
                     list = track["track"]
@@ -333,7 +332,7 @@ def get_top_artist(api_key):
     top_artist_api3 = "&format=json"
     call_api = top_artist_api1 + user_name + top_artist_api2 + api_key + top_artist_api3
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     artists = data["topartists"]["artist"]
     top_artist_list = []
@@ -368,15 +367,15 @@ def create_playlist(q, api_key, similar_track_data_dict, remove_list, count, pla
         first_track = (1.1, q)
         similar_track_data_dict[q] = 1.1
         remove_list.append(q)
-    artist = urllib.parse.quote(q[0])
-    song = urllib.parse.quote(q[1])
+    artist = parse.quote(q[0])
+    song = parse.quote(q[1])
     track_api1 = "http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist="
     track_api2 = "&track="
     track_api3 = "&autocorrect=1&api_key="
     track_api4 = "&format=json"
     call_api = track_api1 + artist + track_api2 + song + track_api3 + api_key + track_api4
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     try:
         track_list = data["similartracks"]["track"]
@@ -472,7 +471,7 @@ def create_similar_song_list(artist, api_key, page):
     :return: アーティストのリスト
     """
     song_list = []
-    artist = urllib.parse.quote(artist)
+    artist = parse.quote(artist)
     artist_api1 = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist="
     artist_api2 = "&autocorrect=1&page="
     page = str(page)
@@ -480,7 +479,7 @@ def create_similar_song_list(artist, api_key, page):
     artist_api4 = "&format=json"
     call_api = artist_api1 + artist + artist_api2 + page + artist_api3 + api_key + artist_api4
     print(call_api)
-    address_json = urllib.request.urlopen(call_api)
+    address_json = request.urlopen(call_api)
     data = json.loads(address_json.read())
     song_list = data["toptracks"]["track"]
     top_match = int(song_list[0]["listeners"])
